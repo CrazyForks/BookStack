@@ -14,7 +14,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Shelves
     Route::get('/create-shelf', 'BookshelfController@create');
-    Route::group(['prefix' => 'shelves'], function() {
+    Route::group(['prefix' => 'shelves'], function () {
         Route::get('/', 'BookshelfController@index');
         Route::post('/', 'BookshelfController@store');
         Route::get('/{slug}/edit', 'BookshelfController@edit');
@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{bookSlug}/sort', 'BookSortController@update');
         Route::get('/{bookSlug}/export/html', 'BookExportController@html');
         Route::get('/{bookSlug}/export/pdf', 'BookExportController@pdf');
+        Route::get('/{bookSlug}/export/markdown', 'BookExportController@markdown');
+        Route::get('/{bookSlug}/export/zip', 'BookExportController@zip');
         Route::get('/{bookSlug}/export/plaintext', 'BookExportController@plainText');
 
         // Pages
@@ -58,6 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{bookSlug}/page/{pageSlug}', 'PageController@show');
         Route::get('/{bookSlug}/page/{pageSlug}/export/pdf', 'PageExportController@pdf');
         Route::get('/{bookSlug}/page/{pageSlug}/export/html', 'PageExportController@html');
+        Route::get('/{bookSlug}/page/{pageSlug}/export/markdown', 'PageExportController@markdown');
         Route::get('/{bookSlug}/page/{pageSlug}/export/plaintext', 'PageExportController@plainText');
         Route::get('/{bookSlug}/page/{pageSlug}/edit', 'PageController@edit');
         Route::get('/{bookSlug}/page/{pageSlug}/move', 'PageController@showMove');
@@ -92,6 +95,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{bookSlug}/chapter/{chapterSlug}/permissions', 'ChapterController@showPermissions');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/export/pdf', 'ChapterExportController@pdf');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/export/html', 'ChapterExportController@html');
+        Route::get('/{bookSlug}/chapter/{chapterSlug}/export/markdown', 'ChapterExportController@markdown');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/export/plaintext', 'ChapterExportController@plainText');
         Route::put('/{bookSlug}/chapter/{chapterSlug}/permissions', 'ChapterController@permissions');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/delete', 'ChapterController@showDelete');
@@ -152,8 +156,14 @@ Route::group(['middleware' => 'auth'], function () {
     // User Search
     Route::get('/search/users/select', 'UserSearchController@forSelect');
 
+    // Template System
     Route::get('/templates', 'PageTemplateController@list');
     Route::get('/templates/{templateId}', 'PageTemplateController@get');
+
+    // Favourites
+    Route::get('/favourites', 'FavouriteController@index');
+    Route::post('/favourites/add', 'FavouriteController@add');
+    Route::post('/favourites/remove', 'FavouriteController@remove');
 
     // Other Pages
     Route::get('/', 'HomeController@index');
@@ -161,7 +171,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/custom-head-content', 'HomeController@customHeadContent');
 
     // Settings
-    Route::group(['prefix' => 'settings'], function() {
+    Route::group(['prefix' => 'settings'], function () {
         Route::get('/', 'SettingController@index')->name('settings');
         Route::post('/', 'SettingController@update');
 
@@ -213,14 +223,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/roles/{id}', 'RoleController@edit');
         Route::put('/roles/{id}', 'RoleController@update');
     });
-
 });
 
 // Social auth routes
 Route::get('/login/service/{socialDriver}', 'Auth\SocialController@login');
 Route::get('/login/service/{socialDriver}/callback', 'Auth\SocialController@callback');
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/login/service/{socialDriver}/detach', 'Auth\SocialController@detach');
+    Route::post('/login/service/{socialDriver}/detach', 'Auth\SocialController@detach');
 });
 Route::get('/register/service/{socialDriver}', 'Auth\SocialController@register');
 
@@ -254,4 +263,4 @@ Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail
 Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::fallback('HomeController@getNotFound');
+Route::fallback('HomeController@getNotFound')->name('fallback');

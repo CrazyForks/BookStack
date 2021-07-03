@@ -6,7 +6,7 @@
 return [
 
     // Pages
-    'page_create'                 => 'ha creato la pagina',
+    'page_create'                 => 'pagina creata',
     'page_create_notification'    => 'Pagina Creata Correttamente',
     'page_update'                 => 'ha aggiornato la pagina',
     'page_update_notification'    => 'Pagina Aggiornata Correttamente',
@@ -43,7 +43,11 @@ return [
     'bookshelf_delete'                 => 'ha eliminato la libreria',
     'bookshelf_delete_notification'    => 'Libreria Eliminata Correttamente',
 
+    // Favourites
+    'favourite_add_notification' => '":name" è stato aggiunto ai tuoi preferiti',
+    'favourite_remove_notification' => '":name" è stato rimosso dai tuoi preferiti',
+
     // Other
     'commented_on'                => 'ha commentato in',
-    'permissions_update'          => 'updated permissions',
+    'permissions_update'          => 'autorizzazioni aggiornate',
 ];

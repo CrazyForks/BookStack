@@ -40,6 +40,10 @@ return [
     'remove' => 'Entfernen',
     'add' => 'Hinzufügen',
     'fullscreen' => 'Vollbild',
+    'favourite' => 'Favorit',
+    'unfavourite' => 'Kein Favorit',
+    'next' => 'Nächste',
+    'previous' => 'Vorheriges',
 
     // Sort Options
     'sort_options' => 'Sortieroptionen',
@@ -47,7 +51,7 @@ return [
     'sort_ascending' => 'Aufsteigend sortieren',
     'sort_descending' => 'Absteigend sortieren',
     'sort_name' => 'Name',
-    'sort_default' => 'Default',
+    'sort_default' => 'Standard',
     'sort_created_at' => 'Erstellungsdatum',
     'sort_updated_at' => 'Aktualisierungsdatum',
 
@@ -65,7 +69,7 @@ return [
     'breadcrumb' => 'Brotkrumen',
 
     // Header
-    'header_menu_expand' => 'Expand Header Menu',
+    'header_menu_expand' => 'Header-Menü erweitern',
     'profile_menu' => 'Profilmenü',
     'view_profile' => 'Profil ansehen',
     'edit_profile' => 'Profil bearbeiten',
@@ -74,9 +78,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Info',
-    'tab_info_label' => 'Tab: Show Secondary Information',
+    'tab_info_label' => 'Tab: Sekundäre Informationen anzeigen',
     'tab_content' => 'Inhalt',
-    'tab_content_label' => 'Tab: Show Primary Content',
+    'tab_content_label' => 'Tab: Hauptinhalt anzeigen',
 
     // Email Content
     'email_action_help' => 'Sollte es beim Anklicken der Schaltfläche ":action_text" Probleme geben, öffnen Sie folgende URL in Ihrem Browser:',

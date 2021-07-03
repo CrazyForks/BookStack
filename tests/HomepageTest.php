@@ -1,10 +1,13 @@
-<?php namespace Tests;
+<?php
 
+namespace Tests;
+
+use BookStack\Auth\Role;
+use BookStack\Auth\User;
 use BookStack\Entities\Models\Bookshelf;
 
 class HomepageTest extends TestCase
 {
-
     public function test_default_homepage_visible()
     {
         $this->asEditor();
@@ -39,8 +42,8 @@ class HomepageTest extends TestCase
         $content = str_repeat('This is the body content of my custom homepage.', 20);
         $customPage = $this->newPage(['name' => $name, 'html' => $content]);
         $this->setSettings([
-            'app-homepage' => $customPage->id,
-            'app-homepage-type' => 'page'
+            'app-homepage'      => $customPage->id,
+            'app-homepage-type' => 'page',
         ]);
 
         $homeVisit = $this->get('/');
@@ -65,8 +68,8 @@ class HomepageTest extends TestCase
         $content = str_repeat('This is the body content of my custom homepage.', 20);
         $customPage = $this->newPage(['name' => $name, 'html' => $content]);
         $this->setSettings([
-            'app-homepage' => $customPage->id,
-            'app-homepage-type' => 'default'
+            'app-homepage'      => $customPage->id,
+            'app-homepage-type' => 'default',
         ]);
 
         $pageDeleteReq = $this->delete($customPage->getUrl());
@@ -140,5 +143,15 @@ class HomepageTest extends TestCase
         $homeVisit = $this->get('/');
         $homeVisit->assertElementContains('.content-wrap', $shelf->name);
         $homeVisit->assertElementContains('.content-wrap', $book->name);
+    }
+
+    public function test_new_users_dont_have_any_recently_viewed()
+    {
+        $user = factory(User::class)->create();
+        $viewRole = Role::getRole('Viewer');
+        $user->attachRole($viewRole);
+
+        $homeVisit = $this->actingAs($user)->get('/');
+        $homeVisit->assertElementContains('#recently-viewed', 'You have not viewed any pages');
     }
 }
